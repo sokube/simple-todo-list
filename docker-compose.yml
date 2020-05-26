@@ -5,13 +5,15 @@ services:
     ports:
     - "8000:8080"
     image:
-        sokube/todos:latest
+      docker.pkg.github.com/sokube/simple-todo-list/simple-todo-list:latest
     environment:
       DB_USER: "todos-user"
       DB_HOST: "database"
       DB_NAME: "todos"
       DB_PORT: 5432
       DB_PASSWORD: "mysecretpassword"
+    depends_on:
+      - database
     
   database:
     image:
