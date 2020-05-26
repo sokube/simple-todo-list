@@ -1,0 +1,26 @@
+{
+  "name": "sokube-todo",
+  "version": "1.0.0",
+  "description": "A very simple ToDo list webapp that is used for Sokube Kubernetes labs",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "sokube",
+    "kubernetes",
+    "training",
+    "nodejs",
+    "redis"
+  ],
+  "author": "Fabrice Vergnenegre (Sokube)",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "express-handlebars": "^4.0.4",
+    "morgan": "^1.10.0",
+    "pg": "^8.2.1"
+  }
+}

@@ -1,0 +1,100 @@
+<!-- Nav menu -->
+<nav class="navbar is-light" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+        <a class="navbar-item" href="https://sokube.ch">
+            <img src="./img/logo_small.png">
+        </a>
+    </div>
+
+    <div id="navbarBasicExample" class="navbar-menu">
+        <div class="navbar-start">
+            <a class="navbar-item" href="https://www.sokube.ch">Home</a>
+        </div>
+        <div class="navbar-end">
+            <div class="navbar-item">
+                <div class="buttons">
+                    <a class="button is-link" href="https://www.linkedin.com/company/sokube/">
+                        <span class="icon "><i class="fab fa-linkedin"></i></span>
+                        <strong>LinkedIn</strong>
+                    </a>
+                    <a class="button is-link" href="mailto:info@sokube.ch">
+                        <span class="icon "><i class="fas fa-envelope"></i></span>
+                        <strong>E-mail</strong>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Header with title and new task button -->
+<section class="section">
+    <div class="container">
+        <article class="media">
+            <figure class="media-left">
+                <p class="image is-96x96">
+                    <img src="./img/logo_small_round.png"/>
+                </p>
+            </figure>
+            <div class="media-content">
+                <div class="content">
+                    <p>
+                        <h1 class="title is-3">Sokube Todo List</h1>
+                    </p>
+                </div>
+            </div>
+        </article>
+    </div>
+
+    <br>
+
+    <div class="container">
+        <div class="field is-grouped">
+            <div class="control is-expanded is-medium">
+                <input class="input is-rounded has-icons-left" id="task_description" type="text" placeholder="New task">
+            </div>
+            <div class="control is-medium">
+                <a class="button is-info" onclick="createNewTask()">New</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Task list -->
+<section class="section">
+    <div id="list" class="container">
+
+        {{#each tasks}}
+        <div class="field is-grouped">
+            <div class="control is-medium">
+                <a class="button {{#if this.complete}}is-light{{else}}is-success{{/if}} is-outlined" onclick="completeTask({{this.id}})">
+                    <span class="icon "><i class="fas fa-check"></i></span>
+                </a>
+            </div>
+            <div class="control is-expanded is-medium ">
+                <input class="input" id="task_description" {{#if this.complete}}disabled{{else}}readonly{{/if}} type="text" style="{{#if this.complete}}text-decoration:line-through;{{/if}}" value="{{this.description}}">
+            </div>
+            <div class="control is-medium">
+                <a class="button is-danger is-outlined" onclick="deleteTask({{this.id}})">
+                    <span class="icon "><i class="fas fa-trash"></i></span>
+                </a>
+            </div>
+        </div>
+        {{/each}}
+
+    </div>
+</section>
+
+<br>
+<hr>
+
+<!-- Footer with hostname -->
+<nav class="level">
+  <div class="level-item has-text-centered is-light">
+    <div>
+      <p class="heading">Running from:</p>
+      <p class="heading"><strong>{{host}}</strong></p>
+    </div>
+  </div>
+</nav>
+
