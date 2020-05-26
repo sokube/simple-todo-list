@@ -1,0 +1,22 @@
+
+version: '2.0'
+services:
+  todos:
+    ports:
+    - "8000:8080"
+    image:
+        sokube/todos:latest
+    environment:
+      DB_USER: "todos-user"
+      DB_HOST: "database"
+      DB_NAME: "todos"
+      DB_PORT: 5432
+      DB_PASSWORD: "mysecretpassword"
+    
+  database:
+    image:
+        postgres:alpine
+    environment: 
+      POSTGRES_DB: "todos"
+      POSTGRES_USER: "todos-user"
+      POSTGRES_PASSWORD: "mysecretpassword"
