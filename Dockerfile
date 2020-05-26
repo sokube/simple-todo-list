@@ -8,6 +8,7 @@ RUN npm install
 # Bundle app source
 COPY . .
 
+# Define port, user and command
 EXPOSE 8080
 USER node
 CMD [ "node", "app" ]
