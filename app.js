@@ -4,62 +4,32 @@ const { Client } = require ('pg');
 const morgan = require('morgan')
 const bodyParser = require('body-parser');
 const os = require('os');
+//const db = require('./pdgb.js');
+const db = require('./inmemdb.js');
 
-const client = new Client( {
-    user: process.env.DB_USER,
-    host: process.env.DB_HOST,
-    database: process.env.DB_NAME,
-    port: process.env.DB_PORT,
-    password: process.env.DB_PASSWORD
-});
-
-// Connect and initialize the database with the todos table if not done already
-client.connect()
-client.on('connect', function () {
-    console.log("Connected to PostgreSQL server "+client.host+":" + client.port)
-    client.query('CREATE TABLE IF NOT EXISTS TODOS ( \
-        id serial NOT NULL, \
-        description varchar(256), \
-        complete boolean, \
-        created TIMESTAMP DEFAULT CURRENT_TIMESTAMP, \
-        PRIMARY KEY(ID));');
-});
+var Organization = "Sokube";
+if (process.env.ORG) {
+    Organization = process.env.ORG;
+}
 
 // REST endpoints
 list_all_tasks = function (req, res) {
-    const query = 'SELECT id, description, complete FROM TODOS ORDER BY created ASC;'
-    client
-        .query(query)
-        .then(res => res.send(res))
-        .catch(e => console.error(e.stack));
+    res.send(db.list_all_tasks());
 }
 
 create_task = function (req, res) {
-    const query = 'INSERT INTO TODOS(description,complete) VALUES ($1,$2) RETURNING id,description,complete;'
-    const { description } = req.body;
-    const values = [ description, false ];
-    client
-        .query(query,values)
-        .then( r => res.json(r.rows[0]) )
-        .catch(e => res.send(err));
+    db.create_task(req.body.description);
+    res.json(req.body.description)
 }
 
 delete_task = function (req, res) {
-    const query = 'DELETE FROM TODOS where id=$1;'
-    const values = [ req.params.taskid ];
-    client
-        .query(query,values)
-        .then( r => res.json(req.params.taskid) )
-        .catch(e => res.send(err));
+    db.delete_task(req.params.taskid)
+    res.json(req.params.taskid);
 }
 
 toggle_task = function (req, res) {
-    const query = 'UPDATE TODOS SET complete = NOT complete where id=$1 RETURNING *;'
-    const values = [ req.params.taskid ];
-    client
-        .query(query,values)
-        .then( r => res.json(r.rows[0]) )
-        .catch(e => res.send(err));
+    db.toggle_task(req.params.taskid);
+    res.json(req.params.taskid);
 }
 
 // Initialize Express HTTP server and middleware
@@ -74,15 +44,8 @@ app.use(bodyParser.json());
 
 // setup HTTP routes
 app.get('/', function(request, result, next) {
-    const query = 'SELECT id, description, complete FROM TODOS ORDER BY created ASC;'
     const hostname = os.hostname;
-    client
-        .query(query)
-        .then(res => {
-            result.render('todos', {tasks: res.rows, host: hostname});
-            }
-        )
-        .catch(e => console.error(e.stack));
+    result.render('todos', {tasks: db.list_all_tasks(), host: hostname, org: Organization});
 });
 
 app.route('/api/v1/tasks')
@@ -94,6 +57,18 @@ app.route('/api/v1/tasks/:taskid')
 
 app.route('/api/v1/tasks/:taskid/toggle')
     .post(toggle_task)
+
+app.get('/api/v1/crash', function() {
+    process.nextTick(function () {
+        throw new Error;
+    });
+})
+
+app.get('/api/v1/endlessloop', function() {
+    process.nextTick(function () {
+        while (true);
+    });
+})
 
 // Server start
 const server = app.listen(PORT, function() {
