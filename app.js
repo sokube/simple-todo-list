@@ -70,6 +70,11 @@ app.get('/api/v1/endlessloop', function() {
     });
 })
 
+app.get('/health', function(request, result) {
+    result.json("OK")
+})
+
+
 // Server start
 const server = app.listen(PORT, function() {
     console.log('Server started on port ' + PORT)
