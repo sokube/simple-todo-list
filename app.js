@@ -33,13 +33,16 @@ toggle_task = function (req, res) {
 }
 
 // Initialize Express HTTP server and middleware
+var slow = 0; // our global slowness variable, delaying of slow ms each request
 const PORT = 8080;
 const app = express()
 app.engine('handlebars', ehb({defaultLayout:'main'}));
 app.set('view engine', 'handlebars');
 app.use(express.static('static'))
 app.use(morgan('common'))
-//app.use(bodyParser.urlencoded({ extended: true }));
+app.use(function(req,res,next){
+    setTimeout(next, slow)
+});
 app.use(bodyParser.json());
 
 // setup HTTP routes
@@ -65,17 +68,15 @@ app.get('/api/v1/crash', function() {
     });
 })
 
-app.get('/api/v1/endlessloop', function() {
-    process.nextTick(function () {
-        while (true);
-    });
+app.get('/api/v1/slowdown', function(request, result) {
+    slow=10000;
+    result.json(slow)
 })
 
 // UNCOMMENT for V1.1
 app.get('/health', function(request, result) {
     result.json("OK")
 })
-
 
 // Server start
 const server = app.listen(PORT, function() {
@@ -88,7 +89,8 @@ var signals = {
     'SIGHUP': 1,
     'SIGINT': 2,
     'SIGTERM': 15
-  };
+};
+
 // Do any necessary shutdown logic for our application here
 const shutdown = (signal, value) => {
     server.close(() => {
@@ -96,6 +98,7 @@ const shutdown = (signal, value) => {
         process.exit(128 + value);
     });
 };
+
 // Create a listener for each of the signals that we want to handle
 Object.keys(signals).forEach((signal) => {
     process.on(signal, () => {
