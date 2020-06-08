@@ -66,11 +66,13 @@
 
         {{#each tasks}}
         <div class="field is-grouped">
+            <!-- UNCOMMENT next DIV FOR V2.0 -->
             <div class="control is-medium">
                 <a class="button {{#if this.complete}}is-light{{else}}is-success{{/if}} is-outlined" onclick="completeTask({{this.id}})">
                     <span class="icon "><i class="fas fa-check"></i></span>
                 </a>
             </div>
+            <!-- UNCOMMENT previous DIV FOR V2.0 -->
             <div class="control is-expanded is-medium ">
                 <input class="input" id="task_description" {{#if this.complete}}disabled{{else}}readonly{{/if}} type="text" style="{{#if this.complete}}text-decoration:line-through;{{/if}}" value="{{this.description}}">
             </div>

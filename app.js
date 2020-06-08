@@ -55,8 +55,9 @@ app.route('/api/v1/tasks')
 app.route('/api/v1/tasks/:taskid')
     .delete(delete_task)
 
+// UNCOMMENT for V2.0
 app.route('/api/v1/tasks/:taskid/toggle')
-    .post(toggle_task)
+     .post(toggle_task)
 
 app.get('/api/v1/crash', function() {
     process.nextTick(function () {
@@ -70,6 +71,7 @@ app.get('/api/v1/endlessloop', function() {
     });
 })
 
+// UNCOMMENT for V1.1
 app.get('/health', function(request, result) {
     result.json("OK")
 })

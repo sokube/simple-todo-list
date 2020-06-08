@@ -1,0 +1,3 @@
+v2.0: Added tasks completion (on/off) feature
+v1.1: Added /health endpoint
+v1.0: Initial release, in-memory list of tasks
