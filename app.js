@@ -8,9 +8,36 @@ const os = require('os');
 const db = require('./inmemdb.js');
 
 var Organization = "Sokube";
-if (process.env.ORG) {
-    Organization = process.env.ORG;
+    Planet = "Tatooine";
+    Climate = "Arid";
+    Terrain = "Desert";
+    Population = "200000";
+    Resident = "Beru Whitesun lars";
+
+if (process.env.ORG) {                                                        
+    Organization = process.env.ORG;                                           
 }
+
+if (process.env.SW_PLANET) {
+    Planet = process.env.SW_PLANET;
+}
+
+if (process.env.SW_CLIMATE) {
+    Climate = process.env.SW_CLIMATE;
+}
+
+if (process.env.SW_TERRAIN) {
+    Terrain = process.env.SW_TERRAIN;
+}
+
+if (process.env.SW_POPULATION) {
+    Population = process.env.SW_POPULATION;
+}
+
+if (process.env.SW_RESIDENT) {
+    Resident = process.env.SW_RESIDENT;
+}
+
 
 // REST endpoints
 list_all_tasks = function (req, res) {
@@ -48,7 +75,12 @@ app.use(bodyParser.json());
 // setup HTTP routes
 app.get('/', function(request, result, next) {
     const hostname = os.hostname;
-    result.render('todos', {tasks: db.list_all_tasks(), host: hostname, org: Organization});
+    result.render('todos', {tasks: db.list_all_tasks(), host: hostname, org: Organization, planet: Planet});
+});
+
+app.get('/planet', function(request, result, next) {
+    const hostname = os.hostname;
+    result.render('planet', {host: hostname, planet: Planet, climate: Climate, terrain: Terrain, population: Population, resident: Resident});
 });
 
 app.route('/api/v1/tasks')
