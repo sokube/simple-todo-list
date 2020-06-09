@@ -4,6 +4,8 @@ const { Client } = require ('pg');
 const morgan = require('morgan')
 const bodyParser = require('body-parser');
 const os = require('os');
+
+// UNCOMMENT for V3.0 and comment inmemdb
 //const db = require('./pdgb.js');
 const db = require('./inmemdb.js');
 
