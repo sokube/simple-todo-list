@@ -1,0 +1,64 @@
+<!-- Nav menu -->
+<nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+        <a class="navbar-item" href="https://sokube.ch">
+            <img src="./img/logo_small.png">
+        </a>
+    </div>
+
+    <div id="navbarBasicExample" class="navbar-menu">
+        <div class="navbar-start">
+            <a class="navbar-item" href="https://www.sokube.ch">Home</a>
+        </div>
+        <div class="navbar-end">
+            <div class="navbar-item">
+                <div class="buttons">
+                    <a class="button is-primary" href="/">
+                        <span class="icon"><i class="fas fa-th-list"></i></span>
+                        <strong>Todos</strong>
+                    </a>
+                    <a class="button is-link is-light" href="https://www.linkedin.com/company/sokube/">
+                        <span class="icon "><i class="fab fa-linkedin"></i></span>
+                        <strong>LinkedIn</strong>
+                    </a>
+                    <a class="button is-link is-light" href="mailto:info@sokube.ch">
+                        <span class="icon "><i class="fas fa-envelope"></i></span>
+                        <strong>E-mail</strong>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Header with title and new task button -->
+<section class="section">
+    <div class="container">
+        <article class="media">
+            <div class="media-content">
+                <div class="content">
+                     <div><strong>Informations - {{planet}} :</strong></div>
+                     <div class="block-planet">
+			<div><strong>Climate</strong> (<i class="fas fa-cloud"></i>): {{climate}}</div>
+                        <div><strong>Terrain</strong> (<i class="fas fa-seedling"></i>): {{terrain}}</div>                     
+                        <div><strong>Population</strong> (<i class="fas fa-users"></i>): {{population}}</div>                   
+                        <div><strong>Resident</strong> (<i class="fas fa-user-astronaut"></i>): {{resident}}</div>
+                      </div>
+                 </div>
+            </div>
+        </article>
+    </div>
+    <br>
+<br>
+<hr>
+
+<!-- Footer with hostname -->
+<nav class="level">
+  <div class="level-item has-text-centered is-light">
+    <div>
+      <p class="heading">Running from:</p>
+      <p class="heading"><strong>{{host}}</strong></p>
+    </div>
+  </div>
+</nav>
+
