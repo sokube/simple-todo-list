@@ -1,0 +1,7 @@
+{
+    "database": false,
+    "liveness": false,
+    "planet-page": false,
+    "task-completion": false,
+    "secret-transmission": false
+}
