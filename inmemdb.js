@@ -25,4 +25,12 @@ var db = {
     }
 };
 
+db.create_task("Wake-up early");
+db.create_task("Train at lightsaber and force-crushing objects");
+db.create_task("Record a fake sos message in R2D2 for fun");
+db.create_task("Destroy an innocent planet for the example");
+db.create_task("Identify rebels planet and send the troops");
+db.create_task("Invest in prosthesis startups and cut Luke's right hand");
+db.create_task("Retire early");
+
 module.exports = db;

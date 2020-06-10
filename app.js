@@ -5,11 +5,26 @@ const morgan = require('morgan')
 const bodyParser = require('body-parser');
 const os = require('os');
 
-// UNCOMMENT for V3.0 and comment inmemdb
-//const db = require('./pdgb.js');
-const db = require('./inmemdb.js');
+var flipit = require('flipit');
+var db;
 
-var Organization = "Sokube";
+console.log(__dirname+"/features.json");
+flipit.load(__dirname+"/features.json", function() {
+    console.log("Features: ");
+    console.log("   database: ",flipit.isEnabled("database"));
+    console.log("   liveness: ",flipit.isEnabled('liveness'));
+    console.log("   planet-page: ",flipit.isEnabled("planet-page"));
+    console.log("   task-completion: ",flipit.isEnabled("task-completion"));
+    console.log("   secret-transmission: ",flipit.isEnabled("secret-transmission"));
+    if (flipit.isEnabled('database')) {
+        db = require('./pgdb.js');
+    }
+    else {
+        db = require('./inmemdb.js');
+    }    
+});
+
+var Organization = "Star Wars";
     Planet = "Tatooine";
     Climate = "Arid";
     Terrain = "Desert";
@@ -57,8 +72,13 @@ delete_task = function (req, res) {
 }
 
 toggle_task = function (req, res) {
-    db.toggle_task(req.params.taskid);
-    res.json(req.params.taskid);
+    if (flipit.isEnabled('task-completion')) {
+        db.toggle_task(req.params.taskid);
+        res.json(req.params.taskid);
+    }
+    else {
+        res.sendStatus(404);
+    }
 }
 
 // Initialize Express HTTP server and middleware
@@ -77,13 +97,21 @@ app.use(bodyParser.json());
 // setup HTTP routes
 app.get('/', function(request, result, next) {
     const hostname = os.hostname;
-    result.render('todos', {tasks: db.list_all_tasks(), host: hostname, org: Organization, planet: Planet});
+    const taskcompletion = flipit.isEnabled('task-completion');
+    result.render('todos', {tasks: db.list_all_tasks(),
+        host: hostname, 
+        taskscompletion: taskcompletion,
+        planetpage: flipit.isEnabled('planet-page'),
+        secret: flipit.isEnabled('secret-transmission'),
+        org: Organization, planet: Planet});
 });
 
-app.get('/planet', function(request, result, next) {
-    const hostname = os.hostname;
-    result.render('planet', {host: hostname, planet: Planet, climate: Climate, terrain: Terrain, population: Population, resident: Resident});
-});
+if (flipit.isEnabled('planet-page')) {
+    app.get('/planet', function(request, result, next) {
+        const hostname = os.hostname;
+        result.render('planet', {host: hostname, planet: Planet, climate: Climate, terrain: Terrain, population: Population, resident: Resident});
+    });
+}
 
 app.route('/api/v1/tasks')
     .get(list_all_tasks)
@@ -92,9 +120,9 @@ app.route('/api/v1/tasks')
 app.route('/api/v1/tasks/:taskid')
     .delete(delete_task)
 
-// UNCOMMENT for V2.0
 app.route('/api/v1/tasks/:taskid/toggle')
-     .post(toggle_task)
+        .post(toggle_task);
+
 
 app.get('/api/v1/crash', function() {
     process.nextTick(function () {
@@ -107,10 +135,12 @@ app.get('/api/v1/slowdown', function(request, result) {
     result.json(slow)
 })
 
-// UNCOMMENT for V1.1
 app.get('/health', function(request, result) {
-    result.json("OK")
-})
+    if (flipit.isEnabled('liveness')) {
+        result.json("OK");
+    }
+    else result.sendStatus(404);
+});
 
 // Server start
 const server = app.listen(PORT, function() {

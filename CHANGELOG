@@ -1,3 +1,7 @@
-v2.0: Added tasks completion (on/off) feature
-v1.1: Added /health endpoint
-v1.0: Initial release, in-memory list of tasks
+REV     VERSION     DESCRIPTION
+6       v3.0        LAB08 - Database support
+5       v2.2        LAB07 - Secret message endpoint
+4       v2.1        LAB06 - Customizations for Planets
+3       v2.0        LAB05 - Added tasks completion (on/off) feature
+2       v1.1        LAB05 - Added /health endpoint
+1       v1.0        LAB03 - Initial release, in-memory list of tasks

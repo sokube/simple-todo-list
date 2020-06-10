@@ -4,7 +4,9 @@ LABEL maintainer="Fabrice Vergnenegre <fabrice.vergnenegre@sokube.ch>, Quentin H
       build_date="05-06-2020" \
       io.k8s.description="Sokube Simple Todo" \
       io.k8s.display-name="sokube-simple-todo"
-	  
+
+ARG REVISION=1
+
 WORKDIR /usr/src/app
 
 # Install app dependencies

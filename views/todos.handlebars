@@ -1,5 +1,5 @@
 <!-- Nav menu -->
-<nav class="navbar" role="navigation" aria-label="main navigation">
+<nav class="navbar is-dark" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
         <a class="navbar-item" href="https://sokube.ch">
             <img src="./img/logo_small.png">
@@ -7,23 +7,27 @@
     </div>
 
     <div id="navbarBasicExample" class="navbar-menu">
-        <div class="navbar-start">
-            <a class="navbar-item" href="https://www.sokube.ch">Home</a>
-        </div>
         <div class="navbar-end">
             <div class="navbar-item">
                 <div class="buttons">
-                   <a class="button is-danger" href="/planet">
+
+                    {{#if secret}}
+                    <a class="button is-danger" href="./secret-transmission.txt">
+                        <span class="icon"><i class="fas fa-user-secret"></i></span>
+                        <strong>Secret Message</strong>
+                    </a>
+                    {{/if}}
+
+                    {{#if planetpage}}
+                    <a class="button is-danger" href="./planet">
                         <span class="icon"><i class="fab fa-galactic-republic"></i></span>
                         <strong>Imperiale Library : {{planet}}</strong>
                     </a>
+                    {{/if}}
+
                     <a class="button is-link is-light" href="https://www.linkedin.com/company/sokube/">
                         <span class="icon "><i class="fab fa-linkedin"></i></span>
                         <strong>LinkedIn</strong>
-                    </a>
-                    <a class="button is-link is-light" href="mailto:info@sokube.ch">
-                        <span class="icon "><i class="fas fa-envelope"></i></span>
-                        <strong>E-mail</strong>
                     </a>
                 </div>
             </div>
@@ -37,12 +41,14 @@
         <article class="media">
             <figure class="media-left">
                 <p class="image is-96x96">
-                    <img src="./img/logo_small_round.png"/>
+                    <img src="./img/logo_starwars.png"/>
                 </p>
             </figure>
             <div class="media-content">
                 <div class="content">
-                     <h1 class="title is-3">{{org}}'s Todo List</h1>
+                    <p>
+                     <h1 class="title is-3">{{org}} Todo List</h1>
+                     </p>
                 </div>
             </div>
         </article>
@@ -65,16 +71,15 @@
 <!-- Task list -->
 <section class="section">
     <div id="list" class="container">
-
         {{#each tasks}}
         <div class="field is-grouped">
-            <!-- UNCOMMENT next DIV FOR V2.0 -->
+            {{#if ../taskscompletion}}
             <div class="control is-medium">
                 <a class="button {{#if this.complete}}is-light{{else}}is-success{{/if}} is-outlined" onclick="completeTask({{this.id}})">
                     <span class="icon "><i class="fas fa-check"></i></span>
                 </a>
             </div>
-            <!-- UNCOMMENT previous DIV FOR V2.0 -->
+            {{/if}}
             <div class="control is-expanded is-medium ">
                 <input class="input" id="task_description" {{#if this.complete}}disabled{{else}}readonly{{/if}} type="text" style="{{#if this.complete}}text-decoration:line-through;{{/if}}" value="{{this.description}}">
             </div>
