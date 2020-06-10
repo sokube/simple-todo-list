@@ -25,6 +25,7 @@ flipit.load(__dirname+"/features.json", function() {
 });
 
 var Organization = "Star Wars";
+    DeathStar = "no secret transmission";
     Planet = "Tatooine";
     Climate = "Arid";
     Terrain = "Desert";
@@ -33,6 +34,10 @@ var Organization = "Star Wars";
 
 if (process.env.ORG) {                                                        
     Organization = process.env.ORG;                                           
+}
+
+if (process.env.DEATH_STAR_PROJECT) {
+   DeathStar = process.env.DEATH_STAR_PROJECT;
 }
 
 if (process.env.SW_PLANET) {
@@ -109,7 +114,7 @@ app.get('/', function(request, result, next) {
 app.get('/planet', function(request, result, next) {
     if (flipit.isEnabled('planet-page')) {
         const hostname = os.hostname;
-        result.render('planet', {host: hostname, planet: Planet, climate: Climate, terrain: Terrain, population: Population, resident: Resident});
+        result.render('planet', {host: hostname, deathstar: DeathStar, planet: Planet, climate: Climate, terrain: Terrain, population: Population, resident: Resident});
     }
 });
 
