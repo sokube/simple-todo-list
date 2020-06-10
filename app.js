@@ -106,12 +106,12 @@ app.get('/', function(request, result, next) {
         org: Organization, planet: Planet});
 });
 
-if (flipit.isEnabled('planet-page')) {
-    app.get('/planet', function(request, result, next) {
+app.get('/planet', function(request, result, next) {
+    if (flipit.isEnabled('planet-page')) {
         const hostname = os.hostname;
         result.render('planet', {host: hostname, planet: Planet, climate: Climate, terrain: Terrain, population: Population, resident: Resident});
-    });
-}
+    }
+});
 
 app.route('/api/v1/tasks')
     .get(list_all_tasks)
