@@ -58,7 +58,7 @@ if (process.env.SW_RESIDENT) {
 
 // REST endpoints
 list_all_tasks = function (req, res) {
-    res.send(db.list_all_tasks());
+    res.send(db.list_all_tasks);
 }
 
 create_task = function (req, res) {
@@ -98,12 +98,30 @@ app.use(bodyParser.json());
 app.get('/', function(request, result, next) {
     const hostname = os.hostname;
     const taskcompletion = flipit.isEnabled('task-completion');
-    result.render('todos', {tasks: db.list_all_tasks(),
-        host: hostname, 
-        taskscompletion: taskcompletion,
-        planetpage: flipit.isEnabled('planet-page'),
-        secret: flipit.isEnabled('secret-transmission'),
-        org: Organization, planet: Planet});
+
+    if (flipit.isEnabled('database')) {
+        console.log("Query");
+        const query = 'SELECT id, description, complete FROM TODOS ORDER BY created ASC;'
+        db.get_client().query(query)
+            .then( r => {
+                console.log("r.rows="+JSON.stringify(r.rows));
+                result.render('todos', {tasks: r.rows,
+                host: hostname, 
+                taskscompletion: taskcompletion,
+                planetpage: flipit.isEnabled('planet-page'),
+                secret: flipit.isEnabled('secret-transmission'),
+                org: Organization, planet: Planet});
+            } )
+            .catch(e => res.send(err));
+    }
+    else {
+        result.render('todos', {tasks: db.list_all_tasks(),
+            host: hostname, 
+            taskscompletion: taskcompletion,
+            planetpage: flipit.isEnabled('planet-page'),
+            secret: flipit.isEnabled('secret-transmission'),
+            org: Organization, planet: Planet});
+    }
 });
 
 app.get('/planet', function(request, result, next) {
@@ -121,8 +139,7 @@ app.route('/api/v1/tasks/:taskid')
     .delete(delete_task)
 
 app.route('/api/v1/tasks/:taskid/toggle')
-        .post(toggle_task);
-
+    .post(toggle_task);
 
 app.get('/api/v1/crash', function() {
     process.nextTick(function () {

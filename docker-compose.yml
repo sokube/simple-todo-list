@@ -5,7 +5,7 @@ services:
     ports:
     - "8000:8080"
     image:
-      docker.pkg.github.com/sokube/simple-todo-list/simple-todo-list:latest
+      sokubedocker/simple-todo:2.2
     environment:
       DB_USER: "todos-user"
       DB_HOST: "database"
@@ -14,7 +14,7 @@ services:
       DB_PASSWORD: "mysecretpassword"
     depends_on:
       - database
-    
+
   database:
     image:
         postgres:alpine

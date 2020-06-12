@@ -21,12 +21,15 @@ client.on('connect', function () {
 });
 
 var db = {
+
+    get_client: function() {
+        return client;
+    },
     list_all_tasks: function () { 
         const query = 'SELECT id, description, complete FROM TODOS ORDER BY created ASC;'
-        client
-            .query(query)
-            .then(res => { return res.rows;} )
-            .catch(e => console.error(e.stack));
+        client.query(query)
+            .then( r => { return r.rows;} )
+            .catch(e => res.send(err));
     },
     create_task:function (desc) { 
         const query = 'INSERT INTO TODOS(description,complete) VALUES ($1,$2) RETURNING id,description,complete;'
