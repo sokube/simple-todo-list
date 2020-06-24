@@ -1,11 +1,11 @@
 FROM node:lts-buster-slim
 
+ARG BUILD_DATE
+
 LABEL maintainer="Fabrice Vergnenegre <fabrice.vergnenegre@sokube.ch>, Quentin HENNEAUX <quentin.henneaux@sokube.ch>" \
-      build_date="05-06-2020" \
+      build_date=$BUILD_DATE \
       io.k8s.description="Sokube Simple Todo" \
       io.k8s.display-name="sokube-simple-todo"
-
-ARG REVISION=1
 
 WORKDIR /usr/src/app
 
