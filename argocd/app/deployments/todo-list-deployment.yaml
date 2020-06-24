@@ -14,14 +14,14 @@ spec:
     spec:
       containers:
       - name: my-simple-todolist
-          image: harbor.fabrice.local/dev/simple-todo-list:3.2.1
-          imagePullPolicy: "Always"
-          ports:
-          - containerPort: 8080
-          livenessProbe:
+        image: harbor.fabrice.local/dev/simple-todo-list:3.2.1
+        imagePullPolicy: "Always"
+        ports:
+        - containerPort: 8080
+        livenessProbe:
           httpGet:
-              path: /health
-              port: 8080
-          periodSeconds: 5
-          initialDelaySeconds: 5
-          timeoutSeconds: 1
+            path: /health
+            port: 8080
+        periodSeconds: 5
+        initialDelaySeconds: 5
+        timeoutSeconds: 1
