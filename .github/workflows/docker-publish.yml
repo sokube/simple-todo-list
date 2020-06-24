@@ -53,9 +53,9 @@ jobs:
           fetch-depth: 0
 
       - name: Build image
-        run: docker build . --file Dockerfile --tag $IMAGE_NAME
+        run: docker build . --no-cache --file Dockerfile --tag $IMAGE_NAME --build-arg BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
 
-      - name: Log into $REGISTRY registry
+      - name: Log into registry
         run: echo "${{ secrets.DEV_REGISTRY_ROBOT_PASSWORD }}" | docker login $REGISTRY -u '${{ secrets.DEV_REGISTRY_ROBOT_USER }}' --password-stdin
 
       - name: Push image

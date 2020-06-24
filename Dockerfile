@@ -1,6 +1,7 @@
 FROM node:lts-buster-slim
 
 ARG BUILD_DATE
+ARG BUILD_VERSION
 
 LABEL maintainer="Fabrice Vergnenegre <fabrice.vergnenegre@sokube.ch>, Quentin HENNEAUX <quentin.henneaux@sokube.ch>" \
       build_date=$BUILD_DATE \

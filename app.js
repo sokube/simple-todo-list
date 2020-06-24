@@ -108,7 +108,9 @@ app.get('/', function(request, result, next) {
                 taskscompletion: taskcompletion,
                 planetpage: flipit.isEnabled('planet-page'),
                 secret: flipit.isEnabled('secret-transmission'),
-                org: Organization, planet: Planet});
+                org: Organization, 
+                planet: Planet,
+                version: process.env.npm_package_version});
         });
     }
     else {
@@ -117,7 +119,8 @@ app.get('/', function(request, result, next) {
             taskscompletion: taskcompletion,
             planetpage: flipit.isEnabled('planet-page'),
             secret: flipit.isEnabled('secret-transmission'),
-            org: Organization, planet: Planet});
+            org: Organization, planet: Planet,
+            version: process.env.npm_package_version});
     }
 });
 

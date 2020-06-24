@@ -1,6 +1,6 @@
 {
   "name": "sokube-todo",
-  "version": "1.0.0",
+  "version": "3.1.1",
   "description": "A very simple ToDo list webapp that is used for Sokube Kubernetes labs",
   "main": "app.js",
   "scripts": {
