@@ -63,7 +63,9 @@ jobs:
           [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
 
           # Use Docker `latest` tag convention
-          [ "$VERSION" != "master" ] && sed -i "s/\"version\"\: \".*\"/\"version\"\: \"$VERSION\"/" package.json
+          if [ "$VERSION" != "master" ]; then
+            sed -i "s/\"version\"\: \".*\"/\"version\"\: \"$VERSION\"/" package.json
+          fi
 
       - name: Build docker image
         run: docker build . --no-cache --file Dockerfile --tag $IMAGE_NAME --build-arg BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ') --build-arg COMMIT=${{ github.sha }}
