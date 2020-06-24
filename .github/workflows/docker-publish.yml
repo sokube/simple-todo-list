@@ -48,11 +48,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          # Disabling shallow clone is recommended for improving relevancy of reporting
+          fetch-depth: 0
 
       - name: Build image
         run: docker build . --file Dockerfile --tag $IMAGE_NAME
 
-      - name: Log into registry
+      - name: Log into $REGISTRY registry
         run: echo "${{ secrets.DEV_REGISTRY_ROBOT_PASSWORD }}" | docker login $REGISTRY -u '${{ secrets.DEV_REGISTRY_ROBOT_USER }}' --password-stdin
 
       - name: Push image
