@@ -1,4 +1,4 @@
-#!/bin/bash
+$#!/bin/bash
 IMAGE="simple-todo"
 REPO="sokubedocker"
 
@@ -7,10 +7,9 @@ build_version () {
     if [ -f "$feature_file" ]; then
         version=$1
         echo "Building version $1 with features file=$feature_file"
-        cp "$feature_file" features.json
+        cp -f "$feature_file" features.json
         docker build -t "$REPO/$IMAGE:$version" .
         docker push "$REPO/$IMAGE:$version"
-        rm -f features.json
     else
         echo "Version $1 does not exist in ./features/"
     fi

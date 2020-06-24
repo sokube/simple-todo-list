@@ -5,15 +5,13 @@ services:
     ports:
     - "8000:8080"
     image:
-      sokubedocker/simple-todo:2.2
+      sokubedocker/simple-todo:3.0
     environment:
       DB_USER: "todos-user"
       DB_HOST: "database"
       DB_NAME: "todos"
       DB_PORT: 5432
       DB_PASSWORD: "mysecretpassword"
-    depends_on:
-      - database
 
   database:
     image:

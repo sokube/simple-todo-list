@@ -100,19 +100,16 @@ app.get('/', function(request, result, next) {
     const taskcompletion = flipit.isEnabled('task-completion');
 
     if (flipit.isEnabled('database')) {
-        console.log("Query");
-        const query = 'SELECT id, description, complete FROM TODOS ORDER BY created ASC;'
-        db.get_client().query(query)
-            .then( r => {
-                console.log("r.rows="+JSON.stringify(r.rows));
-                result.render('todos', {tasks: r.rows,
+        db.get_tasks( (rows) => {
+            console.log("r.rows="+JSON.stringify(rows));
+            result.render('todos', {
+                tasks: rows,
                 host: hostname, 
                 taskscompletion: taskcompletion,
                 planetpage: flipit.isEnabled('planet-page'),
                 secret: flipit.isEnabled('secret-transmission'),
                 org: Organization, planet: Planet});
-            } )
-            .catch(e => res.send(err));
+        });
     }
     else {
         result.render('todos', {tasks: db.list_all_tasks(),
