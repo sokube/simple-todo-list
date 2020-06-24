@@ -15,6 +15,8 @@ on:
 
 env:
   # TODO: Change variable to your image's name.
+  REGISTRY: harbor.fabrice.local
+  HARBOR_PROJECT: dev
   IMAGE_NAME: simple-todo-list
 
 jobs:
@@ -51,11 +53,11 @@ jobs:
         run: docker build . --file Dockerfile --tag $IMAGE_NAME
 
       - name: Log into registry
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+        run: echo "${{ secrets.DEV_REGISTRY_ROBOT_PASSWORD }}" | docker login $REGISTRY -u ${{ secrets.DEV_REGISTRY_ROBOT_USER }} --password-stdin
 
       - name: Push image
         run: |
-          IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/$IMAGE_NAME
+          IMAGE_ID=$REGISTRY/$HARBOR_PROJECT/$IMAGE_NAME
           
           # Change all uppercase to lowercase
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
