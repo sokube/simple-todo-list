@@ -1,9 +1,11 @@
 FROM node:lts-buster-slim
 
 ARG BUILD_DATE
+ARG COMMIT
 
 LABEL maintainer="Fabrice Vergnenegre <fabrice.vergnenegre@sokube.ch>, Quentin HENNEAUX <quentin.henneaux@sokube.ch>" \
       build_date=$BUILD_DATE \
+      commit=$COMMIT \
       io.k8s.description="Sokube Simple Todo" \
       io.k8s.display-name="sokube-simple-todo"
 

@@ -52,17 +52,26 @@ jobs:
           # Disabling shallow clone is recommended for improving relevancy of reporting
           fetch-depth: 0
 
-      - name: Versioning
+      - name: Applying npm versioning depending on git tag
         run: |
-          echo "REF: ${{ github.ref }}"
+          echo "REF: ${{ github.ref }}, COMMIT: ${{ github.sha }} "
 
-      - name: Build image
-        run: docker build . --no-cache --file Dockerfile --tag $IMAGE_NAME --build-arg BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
+          # Strip git ref prefix from version
+          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+
+          # Strip "v" prefix from tag name
+          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+
+          # Use Docker `latest` tag convention
+          [ "$VERSION" != "master" ] && sed -i "s/\"version\"\: \".*\"/\"version\"\: \"$VERSION\"/" package.json
+
+      - name: Build docker image
+        run: docker build . --no-cache --file Dockerfile --tag $IMAGE_NAME --build-arg BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ') --build-arg COMMIT=${{ github.sha }}
 
       - name: Log into registry
         run: echo "${{ secrets.DEV_REGISTRY_ROBOT_PASSWORD }}" | docker login $REGISTRY -u '${{ secrets.DEV_REGISTRY_ROBOT_USER }}' --password-stdin
 
-      - name: Push image
+      - name: Tag and push image
         run: |
           IMAGE_ID=$REGISTRY/$HARBOR_PROJECT/$IMAGE_NAME
           
