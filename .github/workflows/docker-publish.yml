@@ -52,6 +52,10 @@ jobs:
           # Disabling shallow clone is recommended for improving relevancy of reporting
           fetch-depth: 0
 
+      - name: Versioning
+        run: |
+          echo "REF: ${{ github.ref }}"
+
       - name: Build image
         run: docker build . --no-cache --file Dockerfile --tag $IMAGE_NAME --build-arg BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
 
