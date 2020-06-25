@@ -67,6 +67,9 @@ jobs:
             sed -i "s/\"version\"\: \".*\"/\"version\"\: \"$VERSION\"/" package.json
           fi
 
+          echo "package.json:"
+          cat package.json
+
       - name: Build docker image
         run: docker build . --no-cache --file Dockerfile --tag $IMAGE_NAME --build-arg BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ') --build-arg COMMIT=${{ github.sha }}
 
