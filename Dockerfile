@@ -23,4 +23,4 @@ RUN chown -R node:node /usr/src/app
 # Define port, user and command
 EXPOSE 8080
 USER node
-CMD [ "node", "app.js" ]
+CMD [ "npm", "start" ]
