@@ -32,7 +32,7 @@ jobs:
 
     # Test
     - name: TEST
-      if: ${{ env.FEATURE_BRANCH_NAME != ""}}
+      if: ${{ env.FEATURE_BRANCH_NAME != ''}}
       run: |
         echo "This (${{ env.FEATURE_BRANCH_NAME }}) is a Feature branch !"
 
