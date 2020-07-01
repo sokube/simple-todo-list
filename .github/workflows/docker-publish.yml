@@ -1,4 +1,4 @@
-name: Docker
+name: Checks, Builds, Pushes a new Docker Image
 
 on:
   push:
@@ -20,6 +20,22 @@ env:
   IMAGE_NAME: simple-todo-list
 
 jobs:
+
+  # Lint the Dockerfile
+  lint:
+    runs-on: [self-hosted, Linux, X64]
+    steps: 
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Docker Lint
+      uses: luke142367/Docker-Lint-Action@v1.0.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        TARGET: Dockerfile
+
   # Run tests.
   # See also https://docs.docker.com/docker-hub/builds/automated-testing/
   test:
@@ -27,6 +43,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       - name: Run tests
         run: |
