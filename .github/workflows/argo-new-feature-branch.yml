@@ -26,17 +26,15 @@ jobs:
     # Runs a single command using the runners shell
     - name: Checks if feature branch
       run: |
-      echo "Branch $GITHUB_REF created, using account ${{ github.actor }}"
-
-      BRANCH=$(echo "${{ github.ref }}" | grep -oP "test" )
-
-      echo ::set-env name=FEATURE_BRANCH_NAME::"$branch"
+        echo "Branch $GITHUB_REF created, using account ${{ github.actor }}"
+        BRANCH=$(echo "${{ github.ref }}" | grep -oP "$FEATURE_BRANCH_NAME_PATTERN" )
+        echo ::set-env name=FEATURE_BRANCH_NAME::"$branch"
 
     # Test
     - name: TEST
       if: ${{ env.FEATURE_BRANCH_NAME != ""}}
       run: |
-      echo "This (${{ env.FEATURE_BRANCH_NAME }}) is a Feature branch !"
+        echo "This (${{ env.FEATURE_BRANCH_NAME }}) is a Feature branch !"
 
     # Create a new remote branch in the infra repo
     - name: repo-sync
