@@ -9,7 +9,7 @@ on:
 
 env:
   REPOSITORY: sokube/simple-todo-list-infra.git
-  FEATURE_BRANCH_NAME_PATTERN: "refs/heads/feature_(\K.*)"
+  FEATURE_BRANCH_NAME_PATTERN: "refs/heads/feature_(\\K.*)"
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
