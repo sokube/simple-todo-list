@@ -30,11 +30,16 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Docker linter
+    - name: Running dockerfilelint
       uses: luke142367/Docker-Lint-Action@v1.0.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         TARGET: Dockerfile
+
+    - name: Running hadolint
+        uses: brpaz/hadolint-action@master
+        with:
+          dockerfile: "Dockerfile"
 
   # Run tests.
   # See also https://docs.docker.com/docker-hub/builds/automated-testing/
