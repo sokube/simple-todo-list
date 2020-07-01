@@ -9,6 +9,7 @@ on:
 
 env:
   REPOSITORY: sokube/simple-todo-list-infra.git
+  FEATURE_BRANCH_NAME_PATTERN: "refs/heads/feature_(\K.*)"
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -21,42 +22,27 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
-
-    - name: Dump GitHub context
-      env:
-        GITHUB_CONTEXT: ${{ toJson(github) }}
-      run: echo "$GITHUB_CONTEXT"
-    - name: Dump job context
-      env:
-        JOB_CONTEXT: ${{ toJson(job) }}
-      run: echo "$JOB_CONTEXT"
-    - name: Dump steps context
-      env:
-        STEPS_CONTEXT: ${{ toJson(steps) }}
-      run: echo "$STEPS_CONTEXT"
-    - name: Dump runner context
-      env:
-        RUNNER_CONTEXT: ${{ toJson(runner) }}
-      run: echo "$RUNNER_CONTEXT"
-    - name: Dump strategy context
-      env:
-        STRATEGY_CONTEXT: ${{ toJson(strategy) }}
-      run: echo "$STRATEGY_CONTEXT"
-    - name: Dump matrix context
-      env:
-        MATRIX_CONTEXT: ${{ toJson(matrix) }}
-      run: echo "$MATRIX_CONTEXT"
     
     # Runs a single command using the runners shell
-    - name: Run a one-line script
-      run: echo "Branch $GITHUB_REF created, using account {{ github.actor }}""
+    - name: Checks if feature branch
+      run: |
+      echo "Branch $GITHUB_REF created, using account ${{ github.actor }}""
+      branch=$(echo "$GITHUB_REF" | grep -oP "$FEATURE_BRANCH_NAME_PATTERN")
+      echo ::set-env name=FEATURE_BRANCH_NAME::"$branch"
+
+    # Test
+    - name: TEST
+      if: ${{ env.FEATURE_BRANCH_NAME != ""}}
+      run: |
+      echo "This (${{ env.FEATURE_BRANCH_NAME }}) is a Feature branch !"
 
     # Create a new remote branch in the infra repo
     - name: repo-sync
       uses: wei/git-sync@v2
+      if: ${{ env.FEATURE_BRANCH_NAME != ""}}
       with:
         source_repo: "https://${{ github.actor }}:${{ github.token }}@github.com/$REPOSITORY"
         source_branch: "dev"
         destination_repo: "https://${{ github.actor }}:${{ github.token }}@github.com/$REPOSITORY"
-        destination_branch: "test"
+        destination_branch: "newfeature"
 
