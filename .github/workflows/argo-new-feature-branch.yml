@@ -6,7 +6,6 @@ name: New feature branch application for ArgoCD on DEV
 # events but only for the master branch
 on:
   create:
-  
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -33,6 +32,3 @@ jobs:
         destination_repo: "https://{{ github.actor }}:{{github.token}}@github.com/sokube/simple-todo-list-infra"
         destination_branch: "test"
 
-  repo-sync:
-    runs-on: ubuntu-latest
-    steps:
