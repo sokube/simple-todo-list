@@ -39,7 +39,7 @@ jobs:
     # Create a new remote branch in the infra repo
     - name: repo-sync
       uses: wei/git-sync@v2
-      if: ${{ env.FEATURE_BRANCH_NAME != ""}}
+      if: ${{ env.FEATURE_BRANCH_NAME != ''}}
       with:
         source_repo: "https://${{ github.actor }}:${{ github.token }}@github.com/$REPOSITORY"
         source_branch: "dev"
