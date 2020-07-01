@@ -55,8 +55,8 @@ jobs:
     - name: repo-sync
       uses: wei/git-sync@v2
       with:
-        source_repo: "https://{{ github.actor }}:{{github.token}}@github.com/$REPOSITORY"
+        source_repo: "https://${{ github.actor }}:${{ github.token }}@github.com/$REPOSITORY"
         source_branch: "dev"
-        destination_repo: "https://{{ github.actor }}:{{github.token}}@github.com/$REPOSITORY"
+        destination_repo: "https://${{ github.actor }}:${{ github.token }}@github.com/$REPOSITORY"
         destination_branch: "test"
 
