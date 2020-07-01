@@ -28,7 +28,7 @@ jobs:
       run: |
         echo "Branch $GITHUB_REF created, using account ${{ github.actor }}"
         BRANCH=$(echo "${{ github.ref }}" | grep -oP "$FEATURE_BRANCH_NAME_PATTERN" )
-        echo ::set-env name=FEATURE_BRANCH_NAME::"$branch"
+        echo ::set-env name=FEATURE_BRANCH_NAME::"$BRANCH"
 
     # Test
     - name: TEST
