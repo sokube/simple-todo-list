@@ -37,9 +37,9 @@ jobs:
         TARGET: Dockerfile
 
     - name: Running hadolint
-        uses: brpaz/hadolint-action@master
-        with:
-          dockerfile: "Dockerfile"
+      uses: brpaz/hadolint-action@master
+      with:
+        dockerfile: "Dockerfile"
 
   # Run tests.
   # See also https://docs.docker.com/docker-hub/builds/automated-testing/
