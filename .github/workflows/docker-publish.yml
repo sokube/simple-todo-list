@@ -30,11 +30,11 @@ jobs:
       with:
         fetch-depth: 0
 
-    # - name: Docker Lint
-    #   uses: luke142367/Docker-Lint-Action@v1.0.0
-    #   env:
-    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    #     TARGET: Dockerfile
+    - name: Docker linter
+      uses: luke142367/Docker-Lint-Action@v1.0.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        TARGET: Dockerfile
 
   # Run tests.
   # See also https://docs.docker.com/docker-hub/builds/automated-testing/
@@ -59,7 +59,7 @@ jobs:
   # See also https://docs.docker.com/docker-hub/builds/
   push:
     # Ensure test job passes before pushing image.
-    needs: test
+    needs: [test, lint]
 
     runs-on: [self-hosted, Linux, X64]
     if: github.event_name == 'push'
