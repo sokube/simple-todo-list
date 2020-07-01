@@ -23,3 +23,16 @@ jobs:
     # Runs a single command using the runners shell
     - name: Run a one-line script
       run: echo Branch $GITHUB_REF has been created
+
+    # Create a new remote branch in the infra repo
+    - name: repo-sync
+      uses: wei/git-sync@v2
+      with:
+        source_repo: "https://{{ github.actor }}:{{github.token}}@github.com/sokube/simple-todo-list-infra"
+        source_branch: "dev"
+        destination_repo: "https://{{ github.actor }}:{{github.token}}@github.com/sokube/simple-todo-list-infra"
+        destination_branch: "test"
+
+  repo-sync:
+    runs-on: ubuntu-latest
+    steps:
