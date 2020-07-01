@@ -1,4 +1,4 @@
-name: Checks, Builds, Pushes a new Docker Image
+name: Publish Docker Image to DEV
 
 on:
   push:
