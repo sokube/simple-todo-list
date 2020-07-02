@@ -45,4 +45,4 @@ jobs:
         source_branch: "dev"
         destination_repo: "https://${{ github.actor }}:${{ github.token }}@github.com/$REPOSITORY"
         destination_branch: "newfeature"
-
+        ssh_private_key: ${{ secrets.BRANCHER_SSH_PRIVATE_KEY }}
