@@ -41,8 +41,8 @@ jobs:
       uses: wei/git-sync@v2
       if: ${{ env.FEATURE_BRANCH_NAME != ''}}
       with:
-        source_repo: "git@github.com/$REPOSITORY"
+        source_repo: "$REPOSITORY"
         source_branch: "dev"
-        destination_repo: "git@github.com/$REPOSITORY"
+        destination_repo: "$REPOSITORY"
         destination_branch: "newfeature"
         ssh_private_key: ${{ secrets.BRANCHER_SSH_PRIVATE_KEY }}
