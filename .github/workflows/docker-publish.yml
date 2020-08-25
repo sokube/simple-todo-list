@@ -29,7 +29,7 @@ jobs:
     - name: lint
       uses: brpaz/hadolint-action@v1.1.0
       with:
-        target: Dockerfile
+        dockerfile: Dockerfile
 
   # Run tests.
   # See also https://docs.docker.com/docker-hub/builds/automated-testing/
